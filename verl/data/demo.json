@@ -1,0 +1,62 @@
+[
+    {
+        "problem_id": 37216,
+        "problem": "Who did he shoot in November 1963?",
+        "data_type": "image",
+        "problem_type": "text",
+        "options": [],
+        "solution": "<answer>Lee Harvey Oswald</answer>",
+        "path": "./Knowledge/viquae/images/512px-CE5301C.jpg",
+        "data_source": "viquae"
+    },
+    {
+        "problem_id": 37217,
+        "problem": "Who did he assassinate in 1963 in Dallas?",
+        "data_type": "image",
+        "problem_type": "text",
+        "options": [],
+        "solution": "<answer>Lee Harvey Oswald</answer>",
+        "path": "./Knowledge/viquae/images/512px-CE5301C.jpg",
+        "data_source": "viquae"
+    },
+    {
+        "problem_id": 37218,
+        "problem": "What is the name of this mountain since 2015?",
+        "data_type": "image",
+        "problem_type": "text",
+        "options": [],
+        "solution": "<answer>Denali</answer>",
+        "path": "./Knowledge/viquae/images/512px-Mt._McKinley,_Denali_National_Park.jpg",
+        "data_source": "viquae"
+    },
+    {
+        "problem_id": 37219,
+        "problem": "What was her last film?",
+        "data_type": "image",
+        "problem_type": "text",
+        "options": [],
+        "solution": "<answer>The Wrath of God</answer>",
+        "path": "./Knowledge/viquae/images/512px-Rita_Hayworth_in_Blood_and_Sand_trailer.jpg",
+        "data_source": "viquae"
+    },
+    {
+        "problem_id": 37220,
+        "problem": "Which Asian capital city stands on this river?",
+        "data_type": "image",
+        "problem_type": "text",
+        "options": [],
+        "solution": "<answer>KATHMANDU</answer>",
+        "path": "./Knowledge/viquae/images/512px-Bagmati_River_1.jpg",
+        "data_source": "viquae"
+    },
+    {
+        "problem_id": 37221,
+        "problem": "this steel bridge spans which river?",
+        "data_type": "image",
+        "problem_type": "text",
+        "options": [],
+        "solution": "<answer>Avon</answer>",
+        "path": "./Knowledge/viquae/images/512px-Clifton_suspension_bridge2.jpg",
+        "data_source": "viquae"
+    }
+]
