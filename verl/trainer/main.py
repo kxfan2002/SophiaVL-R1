@@ -139,7 +139,6 @@ def main():
     if not ray.is_initialized():
         # this is for local ray cluster
         ray.init(runtime_env={"env_vars": {"TOKENIZERS_PARALLELISM": "true", "NCCL_DEBUG": "WARN"}})
-        # ray.init(runtime_env={"env_vars": {"TOKENIZERS_PARALLELISM": "true", "NCCL_DEBUG": "WARN"}}, local_mode=True)
     ray.get(main_task.remote(ppo_config))
 
 

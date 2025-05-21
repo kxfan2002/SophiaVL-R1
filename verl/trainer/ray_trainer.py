@@ -53,55 +53,6 @@ WorkerType = Type[Worker]
 
 from torch import allclose
 
-def compare_data_proto(batch: DataProto, gen_batch: DataProto):
-    mismatch_found = False
-
-    # 找到 batch.batch 和 gen_batch.batch 共有的键
-    common_batch_keys = set(batch.batch.keys()).intersection(set(gen_batch.batch.keys()))
-
-    # 比较 batch (TensorDict)
-    for k in common_batch_keys:
-        tensor_batch = batch.batch[k]
-        tensor_gen_batch = gen_batch.batch[k]
-        
-        # 如果两个张量的形状不相同，跳过比较并打印警告
-        if tensor_batch.shape != tensor_gen_batch.shape:
-            print(f"[Shape Mismatch] batch.batch[{k}] 形状不一致: {tensor_batch.shape} vs {tensor_gen_batch.shape}")
-            print(f"batch[{k}] = {tensor_batch}")
-            print(f"gen_batch[{k}] = {tensor_gen_batch}")
-            mismatch_found = True
-        else:
-            # 形状相同，使用 allclose 进行数值比较
-            if not allclose(tensor_batch, tensor_gen_batch):
-                print(f"[Mismatch] batch.batch[{k}] 不一致")
-                print(f"batch[{k}] = {tensor_batch}")
-                print(f"gen_batch[{k}] = {tensor_gen_batch}")
-                mismatch_found = True
-
-    # 找到 non_tensor_batch 共有的键
-    common_non_tensor_keys = set(batch.non_tensor_batch.keys()).intersection(set(gen_batch.non_tensor_batch.keys()))
-
-    # 比较 non_tensor_batch
-    for k in common_non_tensor_keys:
-        if batch.non_tensor_batch[k] != gen_batch.non_tensor_batch[k]:
-            print(f"[Mismatch] batch.non_tensor_batch[{k}] 不一致")
-            print(f"    batch: {batch.non_tensor_batch[k]}")
-            print(f"    gen_batch: {gen_batch.non_tensor_batch[k]}")
-            mismatch_found = True
-
-    # 找到 meta_info 共有的键
-    common_meta_keys = set(batch.meta_info.keys()).intersection(set(gen_batch.meta_info.keys()))
-
-    # 比较 meta_info
-    for k in common_meta_keys:
-        if batch.meta_info[k] != gen_batch.meta_info[k]:
-            print(f"[Mismatch] batch.meta_info[{k}] 不一致")
-            print(f"    batch: {batch.meta_info[k]}")
-            print(f"    gen_batch: {gen_batch.meta_info[k]}")
-            mismatch_found = True
-
-    return not mismatch_found
-
 def repeat_multimodal_list(data, repeat_times=2, interleave=True):
     if data is None:
         return None
@@ -293,6 +244,10 @@ def _timer(name: str, timing_raw: Dict[str, float]):
     timing_raw[name] = timer.last
 
 def get_dataset_list(dataset_names, dataset_info):
+    """
+    Get dataset list from dataset_info.json
+    Return a list of dataset attributes which will be further processed.
+    """
     if dataset_names == "":
         return []
 
@@ -303,8 +258,6 @@ def get_dataset_list(dataset_names, dataset_info):
     dataset_list = []
     dataset_names = [ds .strip() for ds in dataset_names.split(',')]
     
-    # print(f"dataset_names = {dataset_names}")
-    # print(f"dataset_info = {dataset_info}")
     for name in dataset_names:
         if "@" in name:
             data_path, data_split = name.split("@")
@@ -312,23 +265,19 @@ def get_dataset_list(dataset_names, dataset_info):
             data_split = "train"
             data_path = name
         print(f"datapath = {data_path}\ndata split={data_split}")
-        # name = data_path.split('/'[-1])
         if dataset_info is None:
             raise ValueError(f"dataset_info.json is None!")
         elif data_path not in dataset_info:
             raise ValueError(f"Dataset {name} is undefined in dataset_info.json!")
         else:
             dataset_attr={}
-            # dataset_attr['file_name']=dataset_info[name]['file_name']
             dataset_attr['split']=data_split
             dataset_attr['file_path']=dataset_info[data_path]['file_path']
             dataset_attr['image_base_path'] = dataset_info[data_path]['image_base_path']
 
             if 'columns' in dataset_info[data_path]:
                 dataset_attr['columns_mapping'] = dataset_info[data_path]['columns']
-                # column_names = ['query', 'images', 'response']
-                # for column_name in column_names:
-                #     dataset_attr[column_name]=dataset_info[name]['columns']
+
         dataset_list.append(dataset_attr)
     return dataset_list
 
@@ -337,7 +286,7 @@ def merge_datasets(all_dataset):
         return all_dataset[0]
     elif len(all_dataset) ==0:
         return []
-    else: # 目前默认用concate的方法
+    else: # concate
         for i, ds in enumerate(all_dataset):
             print(f"Dataset {i} features: {ds.dataset.features}")
         new_features = Features({
@@ -355,9 +304,9 @@ def merge_datasets(all_dataset):
         #     ds.dataset = ds.dataset.cast(new_features)
         aligned_datasets = []
         for ds in all_dataset:
-            if hasattr(ds, 'dataset'):  # 如果 ds 是一个包含 dataset 属性的对象
+            if hasattr(ds, 'dataset'):  # if ds has attribute dataset
                 aligned_datasets.append(ds.dataset.cast(new_features))
-            else:  # 如果 ds 直接是 Dataset 对象
+            else:  # if is Dataset object
                 aligned_datasets.append(ds.cast(new_features))
         # return concatenate_datasets(aligned_datasets)
         merge_attr = {
@@ -367,9 +316,8 @@ def merge_datasets(all_dataset):
             "columns_mapping": {}
         }
         return RLHFDataset(
-            data_attr=merge_attr,  # 适配 RLHFDataset 的数据格式
-            tokenizer=all_dataset[0].tokenizer,   # 取第一个数据集的 tokenizer
-            processor=all_dataset[0].processor,   # 取第一个数据集的 processor
+            data_attr=merge_attr,  
+            tokenizer=all_dataset[0].tokenizer,   
             prompt_key=all_dataset[0].prompt_key,
             max_prompt_length=all_dataset[0].max_prompt_length,
             truncation=all_dataset[0].truncation,
@@ -378,8 +326,7 @@ def merge_datasets(all_dataset):
             max_pixels=all_dataset[0].max_pixels,
             merged_dataset= True,
             dataset=concatenate_datasets(aligned_datasets)
-        )
-        # return concatenate_datasets([ds.dataset for ds in all_dataset])
+        ) # transfer into RLHFDataset object
 
 class RayPPOTrainer:
     """
@@ -461,21 +408,7 @@ class RayPPOTrainer:
             max_pixels=self.config.data.max_pixels,
             ))
         self.train_dataset = merge_datasets(train_datasets)
-        # self.train_dataset = RLHFDataset(
-        #     data_path=self.config.data.train_files,
-        #     tokenizer=self.tokenizer,
-        #     processor=self.processor,
-        #     prompt_key=self.config.data.prompt_key,
-        #     answer_key=self.config.data.answer_key,
-        #     image_key=self.config.data.image_key,
-        #     max_prompt_length=self.config.data.max_prompt_length,
-        #     truncation="right",
-        #     system_prompt=self.config.data.system_prompt,
-        #     min_pixels=self.config.data.min_pixels,
-        #     max_pixels=self.config.data.max_pixels,
-        #     # column_mapping=self.config.column_mapping,
-        # )
-        # use sampler for better ckpt resume
+
         if self.config.data.shuffle:
             train_dataloader_generator = torch.Generator()
             train_dataloader_generator.manual_seed(self.config.data.seed)
@@ -757,13 +690,12 @@ class RayPPOTrainer:
         return rewards, answers, processes
     
     def rank_dynamic_reward_fn(self, batch, multi_modal_data, n = 8, steps=100000):
-        # multi_modal_data 是一个没有翻倍过的dict，uid->multimodal data
         rewards = [None] * len(batch)
         answer_rewards = [None] * len(batch)
         process_rewards = [None] * len(batch)
         gamma_rewards = [None] * len(batch)
         assert len(batch) % n == 0, "Batch size must be divisible by group_size"
-        # 记录每个 sample 的位置
+        # memorize the positions of each uid
         uid_pos_map = {}  # uid -> list of (index, sample)
         for idx, sample in enumerate(batch):
             uid = sample.non_tensor_batch["uid"]
@@ -788,7 +720,6 @@ class RayPPOTrainer:
 
             group_rewards, answer_tensor, process_tensor, gamma_tensor = selected_reward_fn(group, mm_group, steps, n)
             assert group_rewards.shape[0] == n
-            # 确保是 tensor
             if isinstance(group_rewards, list):
                 group_rewards = torch.tensor(group_rewards, dtype=torch.float32)
             if isinstance(answer_tensor, list):
@@ -803,7 +734,6 @@ class RayPPOTrainer:
             process_tensor = process_tensor.squeeze()
             gamma_tensor = gamma_tensor.squeeze()
 
-            # 把组内每个结果按照原 batch 的 index 放回正确位置
             for i, idx in enumerate(indices):
                 rewards[idx] = group_rewards[i]
                 answer_rewards[idx] = answer_tensor[i]
@@ -816,37 +746,6 @@ class RayPPOTrainer:
         gamma_rewards = torch.stack(gamma_rewards)
         return rewards, answer_rewards, process_rewards, gamma_rewards
 
-
-    # def dynamic_reward_fn(self, batch, multi_modal_data, steps=100000, max_workers=8):
-    #     def compute_reward(index, sample):
-    #         try:
-    #             selected_reward_fn = self.reward_fn_dict.get(
-    #                 sample.non_tensor_batch.get("problem_type", "None"),
-    #                 self.reward_fn_dict["numerical"]
-    #             )
-
-    #             # 取出对应的 multimodal 信息
-    #             mm_data = multi_modal_data[index]["image"][0] if multi_modal_data is not None else None
-
-    #             # 将 multimodal data 一起传入 reward_fn，传入的是一个PIL.Image.Image，我们默认只有一张图片
-    #             reward_tensor = selected_reward_fn(sample, mm_data, steps=steps)
-
-    #             if isinstance(reward_tensor, list):
-    #                 reward_tensor = torch.tensor(reward_tensor, dtype=torch.float32)
-    #             return index, reward_tensor.squeeze(0)
-    #         except Exception as e:
-    #             print(f"[Error] computing reward for sample at index {index}: {e}")
-    #             return index, torch.tensor(0.0)
-
-    #     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-    #         futures = [executor.submit(compute_reward, i, s) for i, s in enumerate(batch)]
-
-    #         rewards = [None] * len(batch)
-    #         for future in as_completed(futures):
-    #             index, reward = future.result()
-    #             rewards[index] = reward
-
-    #     return torch.stack(rewards)
     
     def _balance_batch(self, batch: DataProto, metrics: Dict[str, Any], logging_prefix: str = "global_seqlen") -> None:
         """Reorder the data on single controller such that each dp rank gets similar total tokens"""
@@ -916,7 +815,6 @@ class RayPPOTrainer:
                         batch_keys=["input_ids", "attention_mask", "position_ids"],
                         non_tensor_batch_keys=["raw_prompt_ids"],
                     )
-                # print(f"***** gen_batch = *****\n{gen_batch}")
                 with _timer("step", timing_raw):
                     # generate a batch
                     with _timer("gen", timing_raw):  # wg: worker group
@@ -946,7 +844,6 @@ class RayPPOTrainer:
                     }
                     # repeat to align with repeated responses in rollout
                     batch = batch.repeat(repeat_times=self.config.worker.rollout.n, interleave=True)
-                    # retained_multi_modal_data = repeat_multimodal_list(retained_multi_modal_data, repeat_times=self.config.worker.rollout.n, interleave=True)
                     batch = batch.union(gen_batch_output)
 
                     # balance the number of valid tokens on each dp rank.
@@ -959,9 +856,7 @@ class RayPPOTrainer:
 
                     # recompute old_log_probs
                     with _timer("old_log_prob", timing_raw):
-                        # input_ids1 = batch[0].batch["input_ids"]
-                        # print(f"forward_micro_batch input_ids1: &&&&&&&{torch.sum(input_ids1 == 151655).item()}")
-                        old_log_prob = self.actor_rollout_wg.compute_log_prob(batch)# 这里batch输入的也是324个
+                        old_log_prob = self.actor_rollout_wg.compute_log_prob(batch)
                         batch = batch.union(old_log_prob)
 
                     if self.use_reference_policy:
@@ -1026,7 +921,7 @@ class RayPPOTrainer:
                         metrics.update(actor_metrics)
 
                     # validate
-                    if ( # 目前没使用
+                    if (
                         self.val_reward_fn is not None
                         and self.config.trainer.val_freq > 0
                         and self.global_step % self.config.trainer.val_freq == 0

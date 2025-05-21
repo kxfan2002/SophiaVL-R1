@@ -60,9 +60,12 @@ def choices_compute_score(predict: str, ground_truth: list, steps = 100000) -> f
         if predict == "":
             return 0.0
         answer = [a.strip() for a in predict_str_strip.split(',')]
-        inter = set(answer).intersection(set(ground_truth))
-        uni = set(answer).union(set(ground_truth))
-        return len(inter)/len(uni)
+        if len(answer)!= len(ground_truth):
+            return 0.0
+        for a in answer:
+            if a not in ground_truth:
+                return 0.0
+        return 1.0
     else:
         return 0.0
 
@@ -96,22 +99,3 @@ def free_form_compute_score(predict_str: str, ground_truth: str, steps = 100000)
     else:
         return 0.0
     
-def text_compute_score(predict_str: str, ground_truth: str, model, steps = 100000) -> float:
-    if math_format_reward(predict_str):
-        match = re.search(r"<answer>(.*?)</answer>", predict_str, re.DOTALL)
-        if match:
-            predict_str_strip= match.group(1)
-        else:
-            predict_str_strip = predict_str
-        try:
-            P, R, F1 = score([predict_str_strip], [ground_truth], model_type=model,num_layers=12, lang="multilingual")
-        except Exception as e:
-            print(f"predict_str_strip = {predict_str_strip}")
-            print(f"ground_truth = {ground_truth}")
-            print(f"len predict_str_strip = {len(predict_str_strip)}")
-            print(f"len ground_truth = {len(ground_truth)}")
-            print(e)
-            raise ValueError
-        return F1.mean().item()
-    else:
-        return 0.0

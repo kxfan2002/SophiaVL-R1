@@ -180,3 +180,10 @@ verl/data/demo3.json
 alive.py
 .vscode/
 .git_backup/
+=12.1
+.pre-commit-config.yaml
+=450,driver
+=470,driver
+=510,driver
+=515,driver
+=525,driver
