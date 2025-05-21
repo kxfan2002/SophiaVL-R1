@@ -1,24 +1,6 @@
 {
-    "gaokao_single_choice":{
-        "file_path": "/cpfs01/shared/mascience/lvhaoming/workspace/share/EasyR1/data/single_valid_merged.json",
-        "image_base_path": "",
-        "columns": {
-            "Question":"prompt",
-            "response": "answer",
-            "image_paths":"images"
-        }
-    },
-    "gaokao_multiple_choices": {
-        "file_path": "/cpfs01/shared/mascience/lvhaoming/workspace/share/EasyR1/data/multi_valid_merged.json",
-        "image_base_path": "",
-        "columns": {
-            "Question":"prompt",
-            "response": "answer",
-            "image_paths":"images"
-        }
-    },
     "geometry3k":{
-        "file_path":"/cpfs01/shared/mascience/lvhaoming/workspace/share/datasets/geometry3k",
+        "file_path":"workspace/share/datasets/geometry3k",
         "image_base_path":"",
         "columns": {
             "problem":"prompt",
@@ -27,17 +9,8 @@
         }
     },
     "OCR":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/OCR/merged_output_ocr.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "General":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/General/merged_output_general.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
+        "file_path":"dataset/OCR/merged_output_ocr.json",
+        "image_base_path":"datasets",
         "columns":{
             "problem":"prompt",
             "solution":"answer",
@@ -45,8 +18,8 @@
         }
     },
     "Chart":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Chart/merged_output_chart.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
+        "file_path":"dataset/Chart/merged_output_chart.json",
+        "image_base_path":"dataset",
         "columns":{
             "problem":"prompt",
             "solution":"answer",
@@ -54,17 +27,8 @@
         }
     },
     "Knowledge":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Knowledge/merged_output_knowledge_add_viquae.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "Knowledge_notext":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Knowledge/merged_output_knowledge.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
+        "file_path":"dataset/Knowledge/merged_output_knowledge_add_viquae.json",
+        "image_base_path":"dataset",
         "columns":{
             "problem":"prompt",
             "solution":"answer",
@@ -72,8 +36,8 @@
         }
     },
     "Math":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Math/merged_output_math_non_multimath_300k.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
+        "file_path":"dataset/Math/merged_output_math_non_multimath_300k.json",
+        "image_base_path":"dataset",
         "columns":{
             "problem":"prompt",
             "solution":"answer",
@@ -81,89 +45,8 @@
         }
     },
     "demo": {
-        "file_path":"/fs-computility/ai4phys/fankaixuan/EasyR1/EasyR1/verl/data/demo.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "demo2": {
-        "file_path":"/fs-computility/ai4phys/shared/EasyR1/verl/data/demo2.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "demo3": {
-        "file_path":"/fs-computility/ai4phys/fankaixuan/EasyR1/EasyR1/verl/data/demo3.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "Math10kDemo":{
-        "file_path": "/fs-computility/ai4phys/fankaixuan/bysj/grpo_demo.json",
-        "image_base_path": "/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns": {
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "OCRs":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/OCR/merged_output_ocr_shuffled.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "Generals":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/General/merged_output_general_shuffled.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "Charts":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Chart/merged_output_chart_shuffled.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "Knowledges":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Knowledge/merged_output_knowledge_add_viquae_shuffled.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "Maths":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Math/merged_output_math_add_geomverse_add_mavis_geometry_add_metamath_add_limo_shuffled.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
-        "columns":{
-            "problem":"prompt",
-            "solution":"answer",
-            "path":"images"
-        }
-    },
-    "Graph":{
-        "file_path":"/fs-computility/ai4phys/shared/datasets/fkx/Knowledge/knowledge_graph.json",
-        "image_base_path":"/fs-computility/ai4phys/shared/datasets/fkx",
+        "file_path":"verl/data/demo.json",
+        "image_base_path":"datasets",
         "columns":{
             "problem":"prompt",
             "solution":"answer",

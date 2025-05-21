@@ -18,7 +18,7 @@ from mathruler.grader import extract_boxed_content, grade_answer
 from jiwer import wer
 import numpy as np
 from rouge_score import rouge_scorer
-from bert_score import score
+# from bert_score import score
 
 alpha =40
 

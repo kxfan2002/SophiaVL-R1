@@ -1,6 +1,6 @@
 data:
-  train_files: OCR,Knowledge,Chart,Math,General,Math
-  val_files: demo2
+  train_files: Chart,OCR
+  val_files: demo
   prompt_key: prompt
   answer_key: answer
   image_key: images
@@ -8,7 +8,7 @@ data:
   max_prompt_length: 8192
   max_response_length: 1024
   use_addition_column: True
-  shuffle: true
+  shuffle: false
   seed: 1
   max_pixels: 4194304
   min_pixels: 262144
@@ -33,9 +33,9 @@ worker:
       model_path: Qwen/Qwen2.5-7B-Instruct
       enable_gradient_checkpointing: true
       trust_remote_code: false
-      freeze_vision_tower: true
+      freeze_vision_tower: false
     optim:
-      lr: 5.0e-7
+      lr: 6.0e-7
       weight_decay: 1.0e-2
     offload:
       offload_params: true
@@ -67,10 +67,10 @@ worker:
     reward_type: function 
     compute_score: choice
     val_compute_score: math
-    alpha: 800
+    alpha: 12000
 
 trainer:
-  total_episodes: 5
+  total_episodes: 1
   logger: ["console", "wandb"]
   project_name: easy_r1
   experiment_name: qwen2_5_7b_bs
