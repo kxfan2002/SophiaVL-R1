@@ -19,7 +19,7 @@ We recommend using huggingface-cli to download the model. You can use the follow
 pip install -U huggingface_hub
 huggingface-cli login
 
-huggingface-cli repo download SophiaVL-R1 --local-dir <local_dir>
+huggingface-cli download SophiaVL-R1 --local-dir <local_dir>
 ```
 
 ### Enviroment Variables
