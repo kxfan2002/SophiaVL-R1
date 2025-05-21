@@ -50,7 +50,6 @@ def replace_discrete_image_pad(input_ids, image_pad_token=151655, useless_token=
         input_ids: [bs, length] 's input token
         image_pad_token: image pad token 
         useless_token: useless token to replace image pad token
-    
     Returns:
         input_ids with image pad token replaced by useless token
     """
