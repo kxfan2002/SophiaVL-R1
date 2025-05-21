@@ -44,32 +44,28 @@ __all__ = ["DataParallelPPOActor"]
 
 def replace_discrete_image_pad(input_ids, image_pad_token=151655, useless_token=1782): # 1782 = "the"
     """
-    替换离散的 image_pad_token 为 useless_token，保留连续的 image_pad_token
+    Replace discrete image pad token with useless token
+    avoid messy output interrupting training
+    Parameters:
+        input_ids: [bs, length] 's input token
+        image_pad_token: image pad token 
+        useless_token: useless token to replace image pad token
     
-    参数:
-        input_ids: [bs, length] 的输入token
-        image_pad_token: 需要检查的image pad token（默认151655）
-        useless_token: 用于替换的无用token（默认0）
-    
-    返回:
-        处理后的 input_ids
+    Returns:
+        input_ids with image pad token replaced by useless token
     """
     bs, length = input_ids.shape
     output_ids = input_ids.clone()
     
     for i in range(bs):
         seq = input_ids[i]
-        # 找到所有等于 image_pad_token 的位置
         is_pad = (seq == image_pad_token)
         pad_positions = torch.where(is_pad)[0]
         
-        # 检查每个 pad_token 是否是离散的
         for pos in pad_positions:
-            # 检查前一个和后一个token是否也是 pad_token
             prev_ok = (pos > 0 and seq[pos-1] == image_pad_token)
             next_ok = (pos < length-1 and seq[pos+1] == image_pad_token)
             
-            # 如果前后都不是 pad_token，则是离散的
             if not (prev_ok or next_ok):
                 output_ids[i, pos] = useless_token
                 
