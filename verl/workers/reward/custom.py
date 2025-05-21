@@ -228,7 +228,7 @@ class CustomRewardManager:
         self.tokenizer = tokenizer
         self.num_examine = num_examine
         self.T = T
-        self.model = None
+        # self.model = None
         if compute_score == "math":
             self.compute_score = math_compute_score
         elif compute_score == "r1v":
@@ -283,10 +283,11 @@ class CustomRewardManager:
                     ground_truth= match.group(1)
                 response_str = response_str.replace('$$', '').replace('$', '')
                 ground_truth = ground_truth.replace('$$', '').replace('$', '')
-                if self.model == None:
-                    answer_score[index] = self.compute_score(response_str, ground_truth, steps) # response with <answer> tag, gt without
-                else:
-                    answer_score[index] = self.compute_score(response_str, ground_truth, self.model, steps)
+                # if self.model == None:
+                #     answer_score[index] = self.compute_score(response_str, ground_truth, steps) # response with <answer> tag, gt without
+                # else:
+                #     answer_score[index] = self.compute_score(response_str, ground_truth, self.model, steps)
+                answer_score[index] = self.compute_score(response_str, ground_truth, steps)
 
                 prompts_str_list.append(prompt_str)
                 responses_str_list.append(response_str)
@@ -395,10 +396,11 @@ class CustomRewardManager:
                 ground_truth= match.group(1)
             response_str = response_str.replace('$$', '').replace('$', '')
             ground_truth = ground_truth.replace('$$', '').replace('$', '')
-            if self.model == None:
-                answer_score = self.compute_score(response_str, ground_truth, steps)
-            else:
-                answer_score = self.compute_score(response_str, ground_truth, self.model, steps)
+            # if self.model == None:
+            #     answer_score = self.compute_score(response_str, ground_truth, steps)
+            # else:
+            #     answer_score = self.compute_score(response_str, ground_truth, self.model, steps)
+            answer_score[index] = self.compute_score(response_str, ground_truth, steps)
             reward_tensor = torch.zeros_like(response_ids, dtype=torch.float32)
             answer_tensor = torch.zeros_like(response_ids, dtype=torch.float32)
             process_tensor = torch.zeros_like(response_ids, dtype=torch.float32)
@@ -466,10 +468,11 @@ class CustomRewardManager:
                 match_gt = re.search(r"<answer>(.*?)</answer>", ground_truth, re.DOTALL)
                 if match_gt:
                     ground_truth = match_gt.group(1)
-                if self.model == None:
-                    score = self.compute_score(response_str, ground_truth)
-                else:
-                    score = self.compute_score(response_str, ground_truth, self.model)
+                # if self.model == None:
+                #     score = self.compute_score(response_str, ground_truth)
+                # else:
+                #     score = self.compute_score(response_str, ground_truth, self.model)
+                score = self.compute_score(response_str, ground_truth)
                 reward_tensor[i, valid_response_length - 1] = score
 
                 if already_print < self.num_examine:
