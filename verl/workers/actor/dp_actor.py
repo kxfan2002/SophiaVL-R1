@@ -46,12 +46,6 @@ def replace_discrete_image_pad(input_ids, image_pad_token=151655, useless_token=
     """
     Replace discrete image pad token with useless token
     avoid messy output interrupting training
-    Parameters:
-        input_ids: [bs, length] 's input token
-        image_pad_token: image pad token 
-        useless_token: useless token to replace image pad token
-    Returns:
-        input_ids with image pad token replaced by useless token
     """
     bs, length = input_ids.shape
     output_ids = input_ids.clone()
