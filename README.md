@@ -24,9 +24,9 @@ huggingface-cli repo download SophiaVL-R1 --local-dir <local_dir>
 
 ### Enviroment Variables
 
-`OPENAI_API_KEY`: Key for Reward Model API
-`OPENAI_API_URL`: URL for Reward Model API
-`REWARD_MODEL`: Model name of Reward Model
+- `OPENAI_API_KEY`: Key for Reward Model API
+- `OPENAI_API_URL`: URL for Reward Model API
+- `REWARD_MODEL`: Model name of Reward Model
 
 
 ### Scripts
