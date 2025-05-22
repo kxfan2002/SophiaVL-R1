@@ -4,11 +4,15 @@
 
 ## About SophiaVL-R1
 
-We introduce SophiaVL-R1 to explore the R1 paradigm for enhancing thinking-level supervision in vision-language reasoning.
-We introduce Trust-GRPO, a trust-aware extension of GRPO that assigns dynamic trust weights to thinking-level rewards based on reward comparisons between correct and incorrect responses. Additionally, we design an annealing strategy that gradually shifts the learning signal from process rewards to rule-based outcome rewards during training.
+We introduce SophiaVL-R1 to explore the R1 paradigm for enhancing thinking-level supervision in vision-language reasoning. We trian a Thinking Reward Model to give thinking level reward signals.
+We introduce Trust-GRPO, a trustworthiness-aware extension of GRPO that assigns dynamic trustworthiness weights to thinking-level rewards based on reward comparisons between correct and incorrect responses. Additionally, we design an annealing strategy that gradually shifts the learning signal from process rewards to rule-based outcome rewards during training.
+
 Our SophiaVL-R1-7B model achieves strong performance on multiple multimodal reasoning benchmarks. SophiaVL-R1-7B outperforms LLaVA-OneVision-72B on MathVista and MMMU, despite having 10× fewer parameters.
 
+The overview of our Trust-GRPO method:
+
 ![](images/overview.png)
+Below is a reasoning example that illustrates both wrong and correct thinking trajectories leading to the same answer. Our Thinking Reward Model distinguishes between them and assigns corresponding thinking rewards.
 ![](images/demo.png)
 
 ## Reqirements
@@ -46,7 +50,7 @@ Start training:
 bash scripts/train_scripts/run_train.sh
 ```
 
-Modify your training parameters in `scripts/train_scripts/fullsets.yaml`. `train_files` should be seperated with comma.
+Modify your training parameters in `scripts/train_scripts/fullsets.yaml`. 
 
 #### Merge Checkpoint in HuggingFace Format
 The checkpoints saved during training need to be merged before using.
@@ -57,7 +61,7 @@ python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_
 ### Inference
 We provide a simple inference script for you to test the model. The full script is [here](./scripts/inference_single.py). Have a try with your data!
 ```bash
-# example
+# Modify the below fields to your test data
 MODEL_PATH = "bunny127/SophiaVL-R1-7B" # or your local path
 image_path = "/path/to/dataset/Math/CLEVR-Math/images/CLEVR_train_036427.png" # your local image path
 prompt = "Subtract 0 cyan cubes. How many objects are left?"
@@ -65,7 +69,7 @@ question_type = "numerical" # numerical, multiple_choice, free-form, OCR
 ```
 ### Evaluation
 
-We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation. To register our model, add model description in `vlmeval/config.py`:
+We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation of SophiaVL-R1. To register our model in VLMEvalKit, add model description in `vlmeval/config.py`:
 
 ```python
 "trained_model": partial(
@@ -106,10 +110,13 @@ We support text-dataset and image-text dataset both in parquet and json file for
     },
 ```
 ## Performance
+SophiaVL-R1-7B demonstrates strong performance across multiple vision-language reasoning benchmarks, including both mathematical reasoning and general capability tasks. The tables below summarizes the results of SophiaVL-R1-7B compared to other models on these benchmarks.
+
 ![](images/table1.png)
 ![](images/table2.png)
 
 ### Training Curves
+This shows the average outcome reward, which reflects the accuracy of final answers. As shown in the figure below, SophiaVL-R1 trained with Trust-GRPO achieves higher rewards with fewer training steps.
 ![](images/curve.png)
 
 ## More Reasoning Examples
