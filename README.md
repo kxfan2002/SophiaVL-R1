@@ -105,6 +105,19 @@ We support text-dataset and image-text dataset both in parquet and json file for
         }
     },
 ```
+## Performance
+![](images/table1.png)
+![](images/table2.png)
+
+### Training Curves
+![](images/curve.png)
+
+## More Reasoning Examples
+
+![](images/exp1.png)
+![](images/exp2.png)
+![](images/exp3.png)
+![](images/exp4.png)
 
 ## Acknowledgements
 
