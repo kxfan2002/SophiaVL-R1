@@ -66,7 +66,7 @@ huggingface-cli download bunny127/SophiaVL-R1-7B --local-dir <local_dir>
 
 ### Dataset
 
-We provide the [SophiaVL-R1-130k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k) and the [SophiaVL-R1-Thinking-156k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k).
+We provide the [SophiaVL-R1-130k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k) for RL training and the [SophiaVL-R1-Thinking-156k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k) for the training of thinking reward model.
 
 Download dataset:
 
@@ -118,7 +118,7 @@ bash scripts/train_scripts/run_train.sh
 
 #### Merge Checkpoint in HuggingFace Format
 
-The checkpoints saved during training need to be merged before using. This script will transfer the saved checkpoints to HuggingFace format. 
+The checkpoints saved during training need to be merged before inference in [EasyR1](https://github.com/hiyouga/EasyR1). This script will transfer the saved checkpoints to HuggingFace format. 
 
 ```bash
 python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_step_1/actor
@@ -152,7 +152,7 @@ We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation o
 
 ## Performance of SophiaVL-R1-7B
 
-SophiaVL-R1-7B demonstrates strong performance across multiple vision-language reasoning benchmarks, including both mathematical reasoning and general capability tasks. The tables below summarizes the results of SophiaVL-R1-7B compared to other models on these benchmarks.
+SophiaVL-R1-7B demonstrates strong performance across multiple vision-language reasoning benchmarks, including both mathematical reasoning and general capability tasks.
 
 <div align="center">
   <img src="./images/table1.png" alt="Descriptive alt text" width="80%">
@@ -162,15 +162,17 @@ SophiaVL-R1-7B demonstrates strong performance across multiple vision-language r
   <img src="./images/table2.png" alt="Descriptive alt text" width="80%">
 </div>
 
-
+ 
 
 ### Training Curves
 
-This shows the average outcome reward, which reflects the correctness of final answers. As shown in the figure below, SophiaVL-R1 trained with Trust-GRPO achieves better training performance.
+This figure shows the accuracy reward curves during training. It is evident that SophiaVL-R1, trained with thinking-level rewards and Trust-GRPO, achieves significantly better training performance.
 
 <div align="center">
   <img src="./images/curve.png" alt="Descriptive alt text" width="90%">
 </div>
+
+
 
 ## More Reasoning Examples of SophiaVL-R1
 
@@ -195,4 +197,3 @@ This shows the average outcome reward, which reflects the correctness of final a
 ## Acknowledgements
 
 We sincerely appreciate the contributions of the open-source community. This work is built upon [EasyR1](https://github.com/hiyouga/EasyR1).
-
