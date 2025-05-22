@@ -1,4 +1,4 @@
-# SophiaVL-R1
+# SophiaVL-R1: Reinforcing MLLMs Reasoning with Thinking Reward
 
 
 <p align="center">
