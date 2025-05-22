@@ -1,10 +1,7 @@
 from transformers import AutoProcessor
-from vllm import LLM, SamplingParams
-from qwen_vl_utils import process_vision_info
-import base64
 import torch
 from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 
 MODEL_PATH = "bunny127/SophiaVL-R1-7B"
 # Example usage:
