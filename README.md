@@ -3,7 +3,7 @@
 # SophiaVL-R1: Reinforcing MLLMs Reasoning with Thinking Reward
 
 <p align="center">
-  <a href="#">[📖paper]</a> &nbsp;&nbsp;
+  <a href="SophiaVL-R1_paper.pdf">[📖paper]</a> &nbsp;&nbsp;
   <a href="https://huggingface.co/bunny127/SophiaVL-R1-7B">[🤗SophiaVL-R1-7B model]</a> &nbsp;&nbsp;
   <a href="https://huggingface.co/bunny127/SophiaVL-R1-Thinking-Reward-Model-3B">[🤗Thinking Reward Model]</a>
 </p>
@@ -105,13 +105,23 @@ We support text-dataset and image-text dataset both in parquet and json file for
 
 #### Training Scripts
 
-Set these enviroment variables in `scripts/train_scripts/run_train.sh`:
+To begin training, you first need to launch the Thinking Reward Model server using `vllm`:
+
+```bash
+bash scripts/train_scripts/thinking_reward_model.sh
+```
+
+This script starts the Thinking Reward Model and exposes it in the OpenAI API format.
+
+Next, set the following environment variables in `scripts/train_scripts/run_train.sh` so that the training script can access the reward model:
 
 - `OPENAI_API_KEY`: Key for Reward Model API
 - `OPENAI_API_URL`: URL for Reward Model API
 - `REWARD_MODEL`: Model name of Reward Model
 
-Modify your training parameters in `scripts/train_scripts/fullsets.yaml` and start training with command:
+Modify your training parameters in `scripts/train_scripts/fullsets.yaml`. 
+
+Finally, start the training process with:
 
 ```
 bash scripts/train_scripts/run_train.sh
