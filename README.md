@@ -1,6 +1,5 @@
 # SophiaVL-R1: Reinforcing MLLMs Reasoning with Thinking Reward
 
-
 <p align="center">
   <a href="#">[📖paper]</a> &nbsp;&nbsp;
   <a href="https://huggingface.co/bunny127/SophiaVL-R1-7B">[🤗SophiaVL-R1-7B model]</a> &nbsp;&nbsp;
@@ -12,29 +11,35 @@
 <a href="https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k">[🤗SophiaVL-R1-Thinking-156k Dataset]</a>
 </p>
 
+## Intro
 
-## About SophiaVL-R1
+We introduce **SophiaVL-R1** to explore the R1 paradigm using **thinking-level rewards** in vision-language reasoning, motivated by the phenomenon of "**wrong thinking, correct answer**"
 
-We introduce **SophiaVL-R1** to explore the R1 paradigm with thinking-level reward model in vision-language reasoning. We trian a **Thinking Reward Model** to give thinking level reward signals and introuce **Trust-GRPO**, a trustworthiness-aware extension of GRPO that assigns dynamic trustworthiness weights to thinking-level rewards based on reward comparisons between correct and incorrect responses.
+To achieve this, we train a **Thinking Reward Model** to yield a reward that measures the thinking process from various dimensions, using our curated **SophiaVL-R1-Thinking-156k **dataset.
 
-We construct two datasets: **SophiaVL-R1-130k** for Trust-GRPO training and **SophiaVL-R1-Thinking-156k** for training of Thinking Reward Model.
+Besides, We introduce the **Trust-GRPO** algorithm, which assigns a trustworthiness weight to thinking rewards based on their reliability. This method guides the model to explore favorable reasoning policies in a trustworthy manner **without extra computational overhead** for uncertainty estimation.
 
-Our SophiaVL-R1-7B model achieves strong performance on multiple multimodal reasoning benchmarks. SophiaVL-R1-7B outperforms LLaVA-OneVision-72B on MathVista and MMMU, despite having 10× fewer parameters.
+Our SophiaVL-R1-7B model achieves **strong performance** across multiple benchmarks (e.g., 61.3% on MMMU) and can be efficiently trained on 8 A100 GPUs in just 1,500 steps using our **SophiaVL-R1-Thinking-130k** dataset.
 
-The overview of our Trust-GRPO method:
 
-![](images/overview.png)
-Below is a reasoning example that illustrates both wrong and correct thinking trajectories leading to correct answer. Our Thinking Reward Model distinguishes between them and assigns corresponding thinking rewards.
-![](images/demo.png)
+
+<div align="center">
+  <img src="./images/demo.png" alt="Descriptive alt text" width="80%">
+</div>
+
+ 
 
 ## Reqirements
+
 ### Software Requirements
+
 - Python 3.9+
 - transformers>=4.51.0
 - flash-attn>=2.4.3
 - vllm>=0.8.3
 
 Start with the following commands:
+
 ```bash
 git clone https://github.com/kxfan2002/SophiaVL-R1.git
 cd SophiaVL-R1  
@@ -46,7 +51,9 @@ pip install -r requirements.txt
 ## Quick Start
 
 ### Download the model
+
 We recommend using huggingface-cli to download the model. You can use the following command to download the model:
+
 ```bash
 # download huggingface-cli
 pip install -U huggingface_hub
@@ -56,9 +63,11 @@ huggingface-cli download bunny127/SophiaVL-R1-7B --local-dir <local_dir>
 ```
 
 ### Dataset
+
 We provide the [SophiaVL-R1-130k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k) and the [SophiaVL-R1-Thinking-156k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k).
 
 Download dataset:
+
 ```bash
 # download huggingface-cli
 pip install -U huggingface_hub
@@ -69,10 +78,12 @@ huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-d
 
 Our SophiaVL-R1-130k dataset is collected from publicly available datasets. Detail is demonstrated in figure below.
 
-![](images/dataset.png)
+<img src="images/dataset.png" style="zoom:50%;" />
 
 #### Custom Dataset for Training
+
 We support text-dataset and image-text dataset both in parquet and json file format. To train on your own datasets, please register your dataset in `verl/data/dataset_info.json` in the following format：
+
 ```python
 "myDataset":{
         "file_path":"/path/to/your/dataset",
@@ -99,9 +110,10 @@ Modify your training parameters in `scripts/train_scripts/fullsets.yaml` and sta
 
 ```
 bash scripts/train_scripts/run_train.sh
-``` 
+```
 
 #### Merge Checkpoint in HuggingFace Format
+
 The checkpoints saved during training need to be merged before using. This script will transfer the saved checkpoints to HuggingFace format. 
 
 ```bash
@@ -109,7 +121,9 @@ python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_
 ```
 
 ### Inference
+
 We provide a simple inference script for you to test the model. The full script is [here](./scripts/inference_single.py). Have a try with your data!
+
 ```bash
 # Modify the below fields to your test data
 MODEL_PATH = "bunny127/SophiaVL-R1-7B" # or your local path
@@ -117,6 +131,7 @@ image_path = "/path/to/dataset/Math/CLEVR-Math/images/CLEVR_train_036427.png" # 
 prompt = "Subtract 0 cyan cubes. How many objects are left?"
 question_type = "numerical" # numerical, multiple_choice, free-form, OCR
 ```
+
 ### Evaluation
 
 We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation of SophiaVL-R1. To register our model in VLMEvalKit, add model description in `vlmeval/config.py`:
@@ -132,21 +147,23 @@ We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation o
 ```
 
 ## Performance of SophiaVL-R1-7B
+
 SophiaVL-R1-7B demonstrates strong performance across multiple vision-language reasoning benchmarks, including both mathematical reasoning and general capability tasks. The tables below summarizes the results of SophiaVL-R1-7B compared to other models on these benchmarks.
 
-![](images/table1.png)
-![](images/table2.png)
+<img src="images/table1.png" style="zoom: 50%;" />
+<img src="images/table2.png" style="zoom:50%;" />
 
 ### Training Curves
+
 This shows the average outcome reward, which reflects the accuracy of final answers. As shown in the figure below, SophiaVL-R1 trained with Trust-GRPO achieves higher rewards with fewer training steps.
 ![](images/curve.png)
 
 ## More Reasoning Examples of SophiaVL-R1
 
-![](images/exp1.png)
-![](images/exp2.png)
-![](images/exp3.png)
-![](images/exp4.png)
+<img src="images/exp1.png" style="zoom:50%;" />
+<img src="images/exp2.png" style="zoom:50%;" />
+<img src="images/exp3.png" style="zoom:50%;" />
+<img src="images/exp4.png" style="zoom:50%;" />
 
 ## Acknowledgements
 
