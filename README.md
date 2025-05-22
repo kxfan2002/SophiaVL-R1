@@ -34,7 +34,7 @@ Below is a reasoning example that illustrates both wrong and correct thinking tr
 - flash-attn>=2.4.3
 - vllm>=0.8.3
 
-Start with the following command:
+Start with the following commands:
 ```bash
 git clone https://github.com/kxfan2002/SophiaVL-R1.git
 cd SophiaVL-R1  
@@ -52,7 +52,7 @@ We recommend using huggingface-cli to download the model. You can use the follow
 pip install -U huggingface_hub
 huggingface-cli login
 
-huggingface-cli download SophiaVL-R1 --local-dir <local_dir>
+huggingface-cli download bunny127/SophiaVL-R1-7B --local-dir <local_dir>
 ```
 
 ### Dataset
