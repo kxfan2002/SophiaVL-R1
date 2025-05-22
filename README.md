@@ -1,3 +1,5 @@
+
+
 # SophiaVL-R1: Reinforcing MLLMs Reasoning with Thinking Reward
 
 <p align="center">
@@ -78,7 +80,9 @@ huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-d
 
 Our SophiaVL-R1-130k dataset is collected from publicly available datasets. Detail is demonstrated in figure below.
 
-<img src="images/dataset.png" style="zoom:50%;" />
+<div align="center">
+  <img src="./images/dataset.png" alt="Descriptive alt text" width="60%">
+</div>
 
 #### Custom Dataset for Training
 
@@ -170,11 +174,25 @@ This shows the average outcome reward, which reflects the correctness of final a
 
 ## More Reasoning Examples of SophiaVL-R1
 
-<img src="images/exp1.png" style="zoom:50%;" />
-<img src="images/exp2.png" style="zoom:50%;" />
-<img src="images/exp3.png" style="zoom:50%;" />
-<img src="images/exp4.png" style="zoom:50%;" />
+<div align="center">
+  <img src="./images/exp1.png" alt="Descriptive alt text" width="60%">
+</div>
+
+<div align="center">
+  <img src="./images/exp2.png" alt="Descriptive alt text" width="60%">
+</div>
+
+<div align="center">
+  <img src="./images/exp3.png" alt="Descriptive alt text" width="60%">
+</div>
+
+<div align="center">
+  <img src="./images/exp4.png" alt="Descriptive alt text" width="60%">
+</div>
+
+
 
 ## Acknowledgements
 
 We sincerely appreciate the contributions of the open-source community. This work is built upon [EasyR1](https://github.com/hiyouga/EasyR1).
+
