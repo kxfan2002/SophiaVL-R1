@@ -3,13 +3,13 @@
 
 <p align="center">
   <a href="#">[📖paper]</a> &nbsp;&nbsp;
-  <a href="https://huggingface.co/bunny127/SophiaVL-R1-7B">[SophiaVL-R1-7B model]</a> &nbsp;&nbsp;
-  <a href="https://huggingface.co/bunny127/SophiaVL-R1-Thinking-Reward-Model-3B">[Thinking Reward Model]</a>
+  <a href="https://huggingface.co/bunny127/SophiaVL-R1-7B">[[🤗SophiaVL-R1-7B model]</a> &nbsp;&nbsp;
+  <a href="https://huggingface.co/bunny127/SophiaVL-R1-Thinking-Reward-Model-3B">[[🤗Thinking Reward Model]</a>
 </p>
 
 <p align="center">
-<a href="https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k">[SophiaVL-R1-130k Dataset]</a> &nbsp;&nbsp;
-<a href="https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k">[SophiaVL-R1-Thinking-156k Dataset]</a>
+<a href="https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k">[[🤗SophiaVL-R1-130k Dataset]</a> &nbsp;&nbsp;
+<a href="https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k">[[🤗SophiaVL-R1-Thinking-156k Dataset]</a>
 </p>
 
 
