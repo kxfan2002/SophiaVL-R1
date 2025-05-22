@@ -15,7 +15,7 @@
 
 ## About SophiaVL-R1
 
-We introduce **SophiaVL-R1** to explore the R1 paradigm with enhancing thinking-level reward in vision-language reasoning. We trian a **Thinking Reward Model** to give thinking level reward signals and introuce **Trust-GRPO**, a trustworthiness-aware extension of GRPO that assigns dynamic trustworthiness weights to thinking-level rewards based on reward comparisons between correct and incorrect responses.
+We introduce **SophiaVL-R1** to explore the R1 paradigm with thinking-level reward model in vision-language reasoning. We trian a **Thinking Reward Model** to give thinking level reward signals and introuce **Trust-GRPO**, a trustworthiness-aware extension of GRPO that assigns dynamic trustworthiness weights to thinking-level rewards based on reward comparisons between correct and incorrect responses.
 
 We construct two datasets: **SophiaVL-R1-130k** for Trust-GRPO training and **SophiaVL-R1-Thinking-156k** for training of Thinking Reward Model.
 
@@ -34,6 +34,14 @@ Below is a reasoning example that illustrates both wrong and correct thinking tr
 - flash-attn>=2.4.3
 - vllm>=0.8.3
 
+Start with the following command:
+```bash
+git clone https://github.com/kxfan2002/SophiaVL-R1.git
+cd SophiaVL-R1  
+conda create -n sophiavl python=3.10
+conda activate sophiavl
+pip install -r requirements.txt
+```
 
 ## Quick Start
 
@@ -47,11 +55,41 @@ huggingface-cli login
 huggingface-cli download SophiaVL-R1 --local-dir <local_dir>
 ```
 
+### Dataset
+We provide the [SophiaVL-R1-130k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k) and the [SophiaVL-R1-Thinking-156k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k).
+
+Download dataset:
+```bash
+# download huggingface-cli
+pip install -U huggingface_hub
+huggingface-cli login
+
+huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-dir <local_dir>
+```
+
+Our SophiaVL-R1-130k dataset is collected from publicly available datasets. Detail is demonstrated in figure below.
+
+![](images/dataset.png)
+
+#### Custom Dataset for Training
+We support text-dataset and image-text dataset both in parquet and json file format. To train on your own datasets, please register your dataset in `verl/data/dataset_info.json` in the following format：
+```python
+"myDataset":{
+        "file_path":"/path/to/your/dataset",
+        "image_base_path":"/your/image/base/path",
+        "columns":{
+            "column_reponses_to_prompt":"prompt",
+            "column_reponses_to_answer":"answer",
+            "column_reponses_to_images":"images"
+        }
+    },
+```
+
 ### Training
 
 #### Training Scripts
 
-Set these enviroment variables:
+Set these enviroment variables in `scripts/train_scripts/run_train.sh`:
 
 - `OPENAI_API_KEY`: Key for Reward Model API
 - `OPENAI_API_URL`: URL for Reward Model API
@@ -92,36 +130,8 @@ We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation o
         use_custom_prompt=False,
     ),
 ```
-## Dataset
-We provide the [SophiaVL-R1-130k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k) and the [SophiaVL-R1-Thinking-156k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k).
 
-Download dataset:
-```bash
-# download huggingface-cli
-pip install -U huggingface_hub
-huggingface-cli login
-
-huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-dir <local_dir>
-```
-
-Our SophiaVL-R1-130k dataset is collected from publicly available datasets. Detail is demonstrated in figure below.
-
-![](images/dataset.png)
-
-### Custom Dataset for Training
-We support text-dataset and image-text dataset both in parquet and json file format. To train on your own datasets, please register your dataset in `verl/data/dataset_info.json` in the following format：
-```python
-"myDataset":{
-        "file_path":"/path/to/your/dataset",
-        "image_base_path":"/your/image/base/path",
-        "columns":{
-            "column_reponses_to_prompt":"prompt",
-            "column_reponses_to_answer":"answer",
-            "column_reponses_to_images":"images"
-        }
-    },
-```
-## Performance
+## Performance of SophiaVL-R1-7B
 SophiaVL-R1-7B demonstrates strong performance across multiple vision-language reasoning benchmarks, including both mathematical reasoning and general capability tasks. The tables below summarizes the results of SophiaVL-R1-7B compared to other models on these benchmarks.
 
 ![](images/table1.png)
