@@ -39,7 +39,7 @@ huggingface-cli download SophiaVL-R1 --local-dir <local_dir>
 - `REWARD_MODEL`: Model name of Reward Model
 
 
-#### Scripts
+#### Training Scripts
 
 Start training:
 ```
