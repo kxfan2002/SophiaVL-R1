@@ -150,13 +150,23 @@ We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation o
 
 SophiaVL-R1-7B demonstrates strong performance across multiple vision-language reasoning benchmarks, including both mathematical reasoning and general capability tasks. The tables below summarizes the results of SophiaVL-R1-7B compared to other models on these benchmarks.
 
-<img src="images/table1.png" style="zoom: 50%;" />
-<img src="images/table2.png" style="zoom:50%;" />
+<div align="center">
+  <img src="./images/table1.png" alt="Descriptive alt text" width="80%">
+</div>
+
+<div align="center">
+  <img src="./images/table2.png" alt="Descriptive alt text" width="80%">
+</div>
+
+
 
 ### Training Curves
 
-This shows the average outcome reward, which reflects the accuracy of final answers. As shown in the figure below, SophiaVL-R1 trained with Trust-GRPO achieves higher rewards with fewer training steps.
-![](images/curve.png)
+This shows the average outcome reward, which reflects the correctness of final answers. As shown in the figure below, SophiaVL-R1 trained with Trust-GRPO achieves better training performance.
+
+<div align="center">
+  <img src="./images/curve.png" alt="Descriptive alt text" width="90%">
+</div>
 
 ## More Reasoning Examples of SophiaVL-R1
 
