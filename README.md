@@ -5,7 +5,7 @@
 ## About SophiaVL-R1
 
 We introduce SophiaVL-R1 to explore the R1 paradigm for enhancing thinking-level supervision in vision-language reasoning.
-We introduce T-GRPO, a trust-aware extension of GRPO that assigns dynamic trust weights to thinking-level rewards based on reward comparisons between correct and incorrect responses. Additionally, we design an annealing strategy that gradually shifts the learning signal from process rewards to rule-based outcome rewards during training.
+We introduce Trust-GRPO, a trust-aware extension of GRPO that assigns dynamic trust weights to thinking-level rewards based on reward comparisons between correct and incorrect responses. Additionally, we design an annealing strategy that gradually shifts the learning signal from process rewards to rule-based outcome rewards during training.
 Our SophiaVL-R1-7B model achieves strong performance on multiple multimodal reasoning benchmarks. SophiaVL-R1-7B outperforms LLaVA-OneVision-72B on MathVista and MMMU, despite having 10× fewer parameters.
 
 ![](images/overview.png)
@@ -43,22 +43,25 @@ huggingface-cli download SophiaVL-R1 --local-dir <local_dir>
 
 Start training:
 ```
-bash scripts/train_scripts/run_dsw.sh
+bash scripts/train_scripts/run_train.sh
 ```
 
 Modify your training parameters in `scripts/train_scripts/fullsets.yaml`. `train_files` should be seperated with comma.
 
-#### Merge Checkpoint in Hugging Face Format
-The checkpoints saved during training need ti be merged before using.
+#### Merge Checkpoint in HuggingFace Format
+The checkpoints saved during training need to be merged before using.
 ```bash
 python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_step_1/actor
 ```
 
 ### Inference
-We provide a simple inference script for you to test the model. You can use the following command to run the inference:
+We provide a simple inference script for you to test the model. The full script is [here](./scripts/inference_single.py). Have a try with your data!
 ```bash
-
-
+# example
+MODEL_PATH = "bunny127/SophiaVL-R1-7B" # or your local path
+image_path = "/path/to/dataset/Math/CLEVR-Math/images/CLEVR_train_036427.png" # your local image path
+prompt = "Subtract 0 cyan cubes. How many objects are left?"
+question_type = "numerical" # numerical, multiple_choice, free-form, OCR
 ```
 ### Evaluation
 
@@ -85,11 +88,11 @@ huggingface-cli login
 huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-dir <local_dir>
 ```
 
-Our SophiaVL-R1-130k dataset is collected from publicly availablt datasets.
+Our SophiaVL-R1-130k dataset is collected from publicly available datasets.
 
 ![](images/dataset.png)
 
-### Custom Dataset
+### Custom Dataset for Training
 We support text-dataset and image-text dataset both in parquet and json file format. To train on your own datasets, please register your dataset in `verl/data/dataset_info.json` in the following format：
 ```python
 "myDataset":{

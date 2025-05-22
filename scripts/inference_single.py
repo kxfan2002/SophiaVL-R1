@@ -7,6 +7,23 @@ from transformers import Qwen2_5_VLForConditionalGeneration, AutoProcessor
 from PIL import Image, ImageDraw, ImageFont
 
 MODEL_PATH = "bunny127/SophiaVL-R1-7B"
+# Example usage:
+    # {
+    #     "problem_id": 1,
+    #     "problem": "Subtract 0 cyan cubes. How many objects are left?",
+    #     "data_type": "image",
+    #     "problem_type": "numerical",
+    #     "options": [],
+    #     "process": "",
+    #     "solution": "<answer>5</answer>",
+    #     "path": "./Math/CLEVR-Math/images/CLEVR_train_036427.png",
+    #     "data_source": "CLEVR-Math"
+    # },
+image_path = "/path/to/dataset/Math/CLEVR-Math/images/CLEVR_train_036427.png"
+prompt = "Subtract 0 cyan cubes. How many objects are left?"
+question_type = "numerical"
+
+
 model = Qwen2_5_VLForConditionalGeneration.from_pretrained(MODEL_PATH, torch_dtype=torch.bfloat16, attn_implementation="flash_attention_2",device_map="auto")
 processor = AutoProcessor.from_pretrained(MODEL_PATH)
 
@@ -52,22 +69,6 @@ def inference(image_path, question, problem_type = "numerical", sys_prompt="You 
         return output_text[0], inputs
     else:
         return output_text[0]
-
-# Example usage:
-    # {
-    #     "problem_id": 1,
-    #     "problem": "Subtract 0 cyan cubes. How many objects are left?",
-    #     "data_type": "image",
-    #     "problem_type": "numerical",
-    #     "options": [],
-    #     "process": "",
-    #     "solution": "<answer>5</answer>",
-    #     "path": "./Math/CLEVR-Math/images/CLEVR_train_036427.png",
-    #     "data_source": "CLEVR-Math"
-    # },
-image_path = "/path/to/dataset/Math/CLEVR-Math/images/CLEVR_train_036427.png"
-prompt = "Subtract 0 cyan cubes. How many objects are left?"
-question_type = "numerical"
 
 response = inference(image_path, prompt, question_type, sys_prompt=SYS_PROMPT, max_new_tokens=2048)
 print(response)
