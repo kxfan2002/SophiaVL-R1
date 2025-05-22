@@ -4,15 +4,16 @@
 
 ## About SophiaVL-R1
 
-We introduce SophiaVL-R1 to explore the R1 paradigm for enhancing thinking-level supervision in vision-language reasoning. We trian a Thinking Reward Model to give thinking level reward signals.
-We introduce Trust-GRPO, a trustworthiness-aware extension of GRPO that assigns dynamic trustworthiness weights to thinking-level rewards based on reward comparisons between correct and incorrect responses. Additionally, we design an annealing strategy that gradually shifts the learning signal from process rewards to rule-based outcome rewards during training.
+We introduce **SophiaVL-R1** to explore the R1 paradigm with enhancing thinking-level reward in vision-language reasoning. We trian a **Thinking Reward Model** to give thinking level reward signals and introuce **Trust-GRPO**, a trustworthiness-aware extension of GRPO that assigns dynamic trustworthiness weights to thinking-level rewards based on reward comparisons between correct and incorrect responses.
+
+We construct two datasets: **SophiaVL-R1-130k** for Trust-GRPO training and **SophiaVL-R1-Thinking-156k** for training of Thinking Reward Model.
 
 Our SophiaVL-R1-7B model achieves strong performance on multiple multimodal reasoning benchmarks. SophiaVL-R1-7B outperforms LLaVA-OneVision-72B on MathVista and MMMU, despite having 10× fewer parameters.
 
 The overview of our Trust-GRPO method:
 
 ![](images/overview.png)
-Below is a reasoning example that illustrates both wrong and correct thinking trajectories leading to the same answer. Our Thinking Reward Model distinguishes between them and assigns corresponding thinking rewards.
+Below is a reasoning example that illustrates both wrong and correct thinking trajectories leading to correct answer. Our Thinking Reward Model distinguishes between them and assigns corresponding thinking rewards.
 ![](images/demo.png)
 
 ## Reqirements
@@ -36,24 +37,24 @@ huggingface-cli download SophiaVL-R1 --local-dir <local_dir>
 ```
 
 ### Training
-#### Enviroment Variables
+
+#### Training Scripts
+
+Set these enviroment variables:
 
 - `OPENAI_API_KEY`: Key for Reward Model API
 - `OPENAI_API_URL`: URL for Reward Model API
 - `REWARD_MODEL`: Model name of Reward Model
 
+Modify your training parameters in `scripts/train_scripts/fullsets.yaml` and start training with command:
 
-#### Training Scripts
-
-Start training:
 ```
 bash scripts/train_scripts/run_train.sh
-```
-
-Modify your training parameters in `scripts/train_scripts/fullsets.yaml`. 
+``` 
 
 #### Merge Checkpoint in HuggingFace Format
-The checkpoints saved during training need to be merged before using.
+The checkpoints saved during training need to be merged before using. This script will transfer the saved checkpoints to HuggingFace format. 
+
 ```bash
 python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_step_1/actor
 ```
@@ -92,7 +93,7 @@ huggingface-cli login
 huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-dir <local_dir>
 ```
 
-Our SophiaVL-R1-130k dataset is collected from publicly available datasets.
+Our SophiaVL-R1-130k dataset is collected from publicly available datasets. Detail is demonstrated in figure below.
 
 ![](images/dataset.png)
 
@@ -119,7 +120,7 @@ SophiaVL-R1-7B demonstrates strong performance across multiple vision-language r
 This shows the average outcome reward, which reflects the accuracy of final answers. As shown in the figure below, SophiaVL-R1 trained with Trust-GRPO achieves higher rewards with fewer training steps.
 ![](images/curve.png)
 
-## More Reasoning Examples
+## More Reasoning Examples of SophiaVL-R1
 
 ![](images/exp1.png)
 ![](images/exp2.png)
