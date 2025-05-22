@@ -1,6 +1,15 @@
 # SophiaVL-R1
+
+[[paper]]() [[SophiaVL-R1-7B model]](https://huggingface.co/bunny127/SophiaVL-R1-7B) [[SophiaVL-R1-130k]](https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k) [[SophiaVL-R1-Thinking-156k Dataset]](https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k)
+
 ## About SophiaVL-R1
-Recent advances have shown success in eliciting strong reasoning abilities in multimodal large language models (MLLMs) through rule-based reinforcement learning (RL) with outcome rewards. However, this paradigm typically lacks supervision over the thinking process leading to the final outcome. As a result, the model may learn sub-optimal reasoning strategies, which can hinder its generalization ability. In light of this, we propose SophiaVL-R1, as an attempt to add reward signals for the thinking process in this paradigm. To achieve this, we first train a thinking reward model that evaluates the quality of the entire thinking process. Given that the thinking reward may be unreliable for certain samples due to reward hacking, we propose the Trust-GRPO method, which assigns a trustworthiness weight to the thinking reward during training. This weight is computed based on the thinking reward comparison of responses leading to correct answers versus incorrect answers, helping to mitigate the impact of potentially unreliable thinking rewards. Moreover, we design an annealing training strategy that gradually reduces the thinking reward over time, allowing the model to rely more on the accurate rule-based outcome reward in later training stages. Experiments show that our SophiaVL-R1 surpasses a series of reasoning MLLMs on various benchmarks ($\textit{e.g.}$, MathVisita, MMMU), demonstrating strong reasoning and generalization capabilities. Notably, our SophiaVL-R1-7B even outperforms LLaVA-OneVision-72B on most benchmarks, despite the latter having 10 $\times$ more parameters. 
+
+We introduce SophiaVL-R1 to explore the R1 paradigm for enhancing thinking-level supervision in vision-language reasoning.
+We introduce T-GRPO, a trust-aware extension of GRPO that assigns dynamic trust weights to thinking-level rewards based on reward comparisons between correct and incorrect responses. Additionally, we design an annealing strategy that gradually shifts the learning signal from process rewards to rule-based outcome rewards during training.
+Our SophiaVL-R1-7B model achieves strong performance on multiple multimodal reasoning benchmarks. SophiaVL-R1-7B outperforms LLaVA-OneVision-72B on MathVista and MMMU, despite having 10× fewer parameters.
+
+![](images/overview.png)
+![](images/demo.png)
 
 ## Reqirements
 ### Software Requirements
@@ -22,14 +31,15 @@ huggingface-cli login
 huggingface-cli download SophiaVL-R1 --local-dir <local_dir>
 ```
 
-### Enviroment Variables
+### Training
+#### Enviroment Variables
 
 - `OPENAI_API_KEY`: Key for Reward Model API
 - `OPENAI_API_URL`: URL for Reward Model API
 - `REWARD_MODEL`: Model name of Reward Model
 
 
-### Scripts
+#### Scripts
 
 Start training:
 ```
@@ -38,12 +48,18 @@ bash scripts/train_scripts/run_dsw.sh
 
 Modify your training parameters in `scripts/train_scripts/fullsets.yaml`. `train_files` should be seperated with comma.
 
-### Merge Checkpoint in Hugging Face Format
+#### Merge Checkpoint in Hugging Face Format
 The checkpoints saved during training need ti be merged before using.
 ```bash
 python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_step_1/actor
 ```
 
+### Inference
+We provide a simple inference script for you to test the model. You can use the following command to run the inference:
+```bash
+
+
+```
 ### Evaluation
 
 We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation. To register our model, add model description in `vlmeval/config.py`:
@@ -57,8 +73,23 @@ We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation. 
         use_custom_prompt=False,
     ),
 ```
+## Dataset
+We provide the [SophiaVL-R1-130k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-130k) and the [SophiaVL-R1-Thinking-156k Dataset](https://huggingface.co/datasets/bunny127/SophiaVL-R1-Thinking-156k).
 
-## Custom Dataset
+Download dataset:
+```bash
+# download huggingface-cli
+pip install -U huggingface_hub
+huggingface-cli login
+
+huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-dir <local_dir>
+```
+
+Our SophiaVL-R1-130k dataset is collected from publicly availablt datasets.
+
+![](images/dataset.png)
+
+### Custom Dataset
 We support text-dataset and image-text dataset both in parquet and json file format. To train on your own datasets, please register your dataset in `verl/data/dataset_info.json` in the following format：
 ```python
 "myDataset":{
