@@ -61,7 +61,8 @@ We recommend using huggingface-cli to download the model. You can use the follow
 pip install -U huggingface_hub
 huggingface-cli login
 
-huggingface-cli download bunny127/SophiaVL-R1-7B --local-dir <local_dir>
+# download the trained thinking reward model
+huggingface-cli download bunny127/SophiaVL-R1-Thinking-Reward-Model-3B --local-dir <local_dir>
 ```
 
 ### Dataset
@@ -78,7 +79,7 @@ huggingface-cli login
 huggingface-cli download bunny127/SophiaVL-R1-130k --repo-type dataset --local-dir <local_dir>
 ```
 
-Our SophiaVL-R1-130k dataset is collected from publicly available datasets. Detail is demonstrated in figure below.
+Our SophiaVL-R1-130k dataset encompasses a wide range of reasoning data.
 
 <div align="center">
   <img src="./images/dataset.png" alt="Descriptive alt text" width="60%">
@@ -118,7 +119,7 @@ bash scripts/train_scripts/run_train.sh
 
 #### Merge Checkpoint in HuggingFace Format
 
-The checkpoints saved during training need to be merged before inference in [EasyR1](https://github.com/hiyouga/EasyR1). This script will transfer the saved checkpoints to HuggingFace format. 
+After training, the saved checkpoints need to be merged before inference in [EasyR1](https://github.com/hiyouga/EasyR1). This script will transfer the saved checkpoints to HuggingFace format. 
 
 ```bash
 python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_step_1/actor
@@ -129,6 +130,9 @@ python3 scripts/model_merger.py --local_dir checkpoints/easy_r1/exp_name/global_
 We provide a simple inference script for you to test the model. The full script is [here](./scripts/inference_single.py). Have a try with your data!
 
 ```bash
+# download the trained reasoning model for direct inference
+huggingface-cli download bunny127/SophiaVL-R1-7B --local-dir <local_dir>
+
 # Modify the below fields to your test data
 MODEL_PATH = "bunny127/SophiaVL-R1-7B" # or your local path
 image_path = "/path/to/dataset/Math/CLEVR-Math/images/CLEVR_train_036427.png" # your local image path
@@ -152,7 +156,7 @@ We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation o
 
 ## Performance of SophiaVL-R1-7B
 
-SophiaVL-R1-7B demonstrates strong performance across multiple vision-language reasoning benchmarks, including both mathematical reasoning and general capability tasks.
+SophiaVL-R1-7B demonstrates strong performance across multiple MLLM benchmarks, including both mathematical reasoning and general capability tasks.
 
 <div align="center">
   <img src="./images/table1.png" alt="Descriptive alt text" width="80%">
