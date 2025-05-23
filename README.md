@@ -3,7 +3,7 @@
 # SophiaVL-R1: Reinforcing MLLMs Reasoning with Thinking Reward
 
 <p align="center">
-  <a href="SophiaVL-R1_paper.pdf">[📖paper]</a> &nbsp;&nbsp;
+  <a href="https://arxiv.org/pdf/2505.17018">[📖paper]</a> &nbsp;&nbsp;
   <a href="https://huggingface.co/bunny127/SophiaVL-R1-7B">[🤗SophiaVL-R1-7B model]</a> &nbsp;&nbsp;
   <a href="https://huggingface.co/bunny127/SophiaVL-R1-Thinking-Reward-Model-3B">[🤗Thinking Reward Model]</a>
 </p>
