@@ -17,7 +17,7 @@
 
 We introduce **SophiaVL-R1** to explore the R1 paradigm using **thinking-level rewards** in vision-language reasoning, motivated by the phenomenon of "**wrong thinking, correct answer**"
 
-To achieve this, we train a **Thinking Reward Model** to yield a reward that measures the thinking process from various dimensions, using our curated **SophiaVL-R1-Thinking-156k**dataset.
+To achieve this, we train a **Thinking Reward Model** to yield a reward that measures the thinking process from various dimensions, using our curated **SophiaVL-R1-Thinking-156k** dataset.
 
 Besides, We introduce the **Trust-GRPO** algorithm, which assigns a trustworthiness weight to thinking rewards based on their reliability. This method guides the model to explore favorable reasoning policies in a trustworthy manner **without extra computational overhead** for uncertainty estimation.
 
