@@ -217,7 +217,7 @@ We sincerely appreciate the contributions of the open-source community. This wor
 If you find our work helpful for your research, please consider citing our work.   
 
 ```
-@article{fan2025SophiaVL,
+@article{fan2025sophiavl,
   title={SophiaVL-R1: Reinforcing MLLMs Reasoning with Thinking Reward},
   author={Fan, Kaixuan and Feng, Kaituo and Lyu, Haoming and Zhou, Dongzhan and Yue, Xiangyu},
   journal={arXiv preprint arXiv:2505.17018},
