@@ -9,7 +9,7 @@
         }
     },
     "OCR":{
-        "file_path":"dataset/OCR/merged_output_ocr.json",
+        "file_path":"dataset/json/ocr.json",
         "image_base_path":"datasets",
         "columns":{
             "problem":"prompt",
@@ -18,7 +18,7 @@
         }
     },
     "Chart":{
-        "file_path":"dataset/Chart/merged_output_chart.json",
+        "file_path":"dataset/json/chart.json",
         "image_base_path":"dataset",
         "columns":{
             "problem":"prompt",
@@ -27,7 +27,7 @@
         }
     },
     "Knowledge":{
-        "file_path":"dataset/Knowledge/merged_output_knowledge_add_viquae.json",
+        "file_path":"dataset/json/knowledge.json",
         "image_base_path":"dataset",
         "columns":{
             "problem":"prompt",
@@ -36,7 +36,7 @@
         }
     },
     "Math":{
-        "file_path":"dataset/Math/merged_output_math_non_multimath_300k.json",
+        "file_path":"dataset/json/math.json",
         "image_base_path":"dataset",
         "columns":{
             "problem":"prompt",

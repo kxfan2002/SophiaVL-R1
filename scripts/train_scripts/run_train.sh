@@ -4,7 +4,7 @@ export HF_ENDPOINT=https://hf-mirror.com
 
 export OPENAI_API_URL=your_reward_model_url
 export OPENAI_API_KEY=your_reward_model_key
-export REWARD_MODEL="Qwen2.5-VL-3B-Instruct" # your reward model name
+export REWARD_MODEL="thinking-reward-model" # your reward model name
 
 OUTPUT_DIR=/your/output/path
 if [ ! -d "$OUTPUT_DIR" ]; then

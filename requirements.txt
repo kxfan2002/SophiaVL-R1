@@ -18,3 +18,5 @@ torchdata
 transformers>=4.49.0
 vllm>=0.7.3
 wandb
+jiwer
+rouge_score

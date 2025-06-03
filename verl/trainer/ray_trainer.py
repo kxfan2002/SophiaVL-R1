@@ -317,7 +317,8 @@ def merge_datasets(all_dataset):
         }
         return RLHFDataset(
             data_attr=merge_attr,  
-            tokenizer=all_dataset[0].tokenizer,   
+            tokenizer=all_dataset[0].tokenizer,
+            processor=all_dataset[0].processor,
             prompt_key=all_dataset[0].prompt_key,
             max_prompt_length=all_dataset[0].max_prompt_length,
             truncation=all_dataset[0].truncation,
