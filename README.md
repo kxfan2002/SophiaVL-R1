@@ -164,7 +164,7 @@ We use [VLMEvalKit](https://github.com/open-compass/VLMEvalKit) for evaluation o
     ),
 ```
 
-The systemt prompt used for evalutation of all models are as follows:
+We use the following systemt prompt for the evalutation of all models:
 ```
 system_prompt="You FIRST think about the reasoning process as an internal monologue and then provide the final answer. Please think about this question as if you were a human pondering deeply. Engage in an internal dialogue using expressions such as 'let me think', 'wait', 'Hmm', 'oh, I see', 'let's break it down', etc, or other natural language thought expressions. It's encouraged to include self-reflection or verification in the reasoning process.The reasoning process MUST BE enclosed within <think> </think> tagsdd. The final answer MUST BE enclosed within <answer> </answer> tags, for example <think>your_thinking_process</think><answer>your_final_answer</answer>. If you use formula, please use LaTeX format.",
 ```
