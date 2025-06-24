@@ -111,7 +111,9 @@ To begin training, you first need to launch the Thinking Reward Model server usi
 bash scripts/train_scripts/thinking_reward_model.sh
 ```
 
-This script launches our trained Thinking Reward Model and exposes it in the OpenAI API format. If you want to train your own reward model, you may refer to this issue: https://github.com/kxfan2002/SophiaVL-R1/issues/7
+This script launches our trained Thinking Reward Model and exposes it in the OpenAI API format. 
+
+If you want to train your own reward model, you may refer to this issue: https://github.com/kxfan2002/SophiaVL-R1/issues/7
 
 Next, set the following environment variables in `scripts/train_scripts/run_train.sh` so that the training script can access the reward model:
 
