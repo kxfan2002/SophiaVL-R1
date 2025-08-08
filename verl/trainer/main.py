@@ -101,11 +101,11 @@ def main_task(config: PPOConfig):
     #     tokenizer=tokenizer, num_examine=1, compute_score=config.worker.reward.compute_score
     # )
     reward_fn_dict = {
-        "numerical": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="math", alpha=config.worker.reward.alpha),
-        "multiple choice": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="choice", alpha=config.worker.reward.alpha),
-        "OCR": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="ocr", alpha=config.worker.reward.alpha),
-        "free-form": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="caption", alpha=config.worker.reward.alpha),
-        "text": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="text", alpha=config.worker.reward.alpha)
+        "numerical": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="math", T=config.worker.reward.alpha),
+        "multiple choice": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="choice", T=config.worker.reward.alpha),
+        "OCR": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="ocr", T=config.worker.reward.alpha),
+        "free-form": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="caption", T=config.worker.reward.alpha),
+        "text": CustomRewardManager(tokenizer=tokenizer, num_examine=1, compute_score="text", T=config.worker.reward.alpha)
     }
     val_reward_fn = CustomRewardManager(
         tokenizer=tokenizer, num_examine=1, compute_score=config.worker.reward.val_compute_score
