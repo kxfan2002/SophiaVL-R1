@@ -22,7 +22,7 @@ import os
 from io import BytesIO
 import time
 from ...protocol import DataProtoItem, DataProto, collate_fn
-from ...utils.reward_score import math_compute_score, r1v_compute_score, choices_compute_score, ocr_compute_score, free_form_compute_score, text_compute_score
+from ...utils.reward_score import math_compute_score, r1v_compute_score, choices_compute_score, ocr_compute_score, free_form_compute_score
 import pickle
 import math
 import httpx
